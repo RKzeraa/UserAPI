@@ -29,6 +29,7 @@ public class UserController : ControllerBase
     [HttpPost]
     public IActionResult Create(User user)
     {
+        // User userForCreate = new User(user.Name,user.Email, user.BirthDate.ToString());
         UserService.Add(user);
         return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
     }

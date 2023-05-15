@@ -7,9 +7,13 @@ public class User
     public DateTime BirthDate { get; set; }
     public DateTime CreatedUserDate { get; set; }
 
+    public User()
+    {
+        
+    }
     public User(string? name, string? email, string? birthDate)
     {
-        Id = Id;
+        // Id = Id;
         Name = name;
         Email = email;
         BirthDate = DateTime.Parse(birthDate!);
