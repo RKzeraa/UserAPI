@@ -4,41 +4,37 @@ namespace UserAPI.Services;
 
 public static class UserService
 {
-    static List<User> Users { get; }
-    static int nextId = 3;
-
-    static UserService()
+    private static int id = 0;
+    private static List<User> Users = new List<User>
     {
-        Users = new List<User>
-        {
-            new User ( 1, "User1", "user1@gmail.com", "15/05/2000" ),
-            new User  ( 2, "User2", "user2@gmail.com", "13/03/1993" )
-        };
-    }
+        new User (id++, "User1", "user1@gmail.com", "15/05/2000" ),
+        new User (id++, "User2", "user2@gmail.com", "13/03/1993" )
+    };
 
     public static List<User> GetAll() => Users;
 
-    public static User? Get(int id) => Users.FirstOrDefault(u => u.Id == id);
+    public static User? GetUserById(int id) => Users.FirstOrDefault(u => u.Id == id);
+
+    public static User? GetUserByName(string name) => Users.Find(u => u.Name!.ToLower() == name.ToLower());
+
+    public static User? GetUserByBirthDate(string birthDate) => Users.Find(u => u.BirthDate == birthDate);
 
     public static void Add(User user)
     {
-        user.Id = nextId++;
+        user.Id = id++;
+        user.CreatedUserDate = DateTime.Now;
         Users.Add(user);
     }
 
-    public static void Delete(int id)
+    public static void RemoveUser(User user)
     {
-        var user = Get(id);
-        if(user is null)
-            return;
-        
         Users.Remove(user);
     }
 
     public static void Update(User user)
     {
         var index = Users.FindIndex(u => u.Id == user.Id);
-        if(index == -1)
+        if (index == -1)
             return;
 
         Users[index] = user;
