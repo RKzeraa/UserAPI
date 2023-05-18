@@ -33,7 +33,9 @@ public class UserController : ControllerBase
     [HttpGet("GetByBirthDate/{birthDate}")]
     public IActionResult GetByBirthDate(string birthDate)
     {
+        birthDate = birthDate.Replace("%2F", "/");
         var User = UserService.GetUserByBirthDate(birthDate);
+        Console.WriteLine(birthDate);
         if (User == null) return NotFound();
 
         return Ok(User);

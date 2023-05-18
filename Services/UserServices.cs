@@ -17,7 +17,10 @@ public static class UserService
 
     public static User? GetUserByName(string name) => Users.Find(u => u.Name!.ToLower() == name.ToLower());
 
-    public static User? GetUserByBirthDate(string birthDate) => Users.Find(u => u.BirthDate == birthDate);
+    public static User? GetUserByBirthDate(string birthDate) {
+        Console.WriteLine(birthDate);
+        return Users.Find(u => u.BirthDate!.ToLower() == birthDate.ToLower());
+    }    
 
     public static void Add(User user)
     {
