@@ -8,56 +8,64 @@ namespace UserAPI.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
-    public UserController()
-    {
-    }
-
     [HttpGet]
-    public ActionResult<List<User>> GetAll() =>
-        UserService.GetAll();
-    
-    [HttpGet("{id}")]
-    public ActionResult<User> Get(int id)
-    {
-        var user = UserService.Get(id);
-        if(user == null)
-            return NotFound();
+    public IEnumerable<User> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 50) =>
+        UserService.GetAll().Skip(skip).Take(take);
 
-        return user;
+    [HttpGet("{id}")]
+    public IActionResult GetById(int id)
+    {
+        var User = UserService.GetUserById(id);
+        if (User == null) return NotFound();
+
+        return Ok(User);
     }
+
+    [HttpGet("GetByName/{name}")]
+    public IActionResult GetByName(string name)
+    {
+        var User = UserService.GetUserByName(name);
+        if (User == null) return NotFound();
+
+        return Ok(User);
+    }
+
+    [HttpGet("GetByBirthDate/{birthDate}")]
+    public IActionResult GetByBirthDate(string birthDate)
+    {
+        birthDate = birthDate.Replace("%2F", "/");
+        var User = UserService.GetUserByBirthDate(birthDate);
+        Console.WriteLine(birthDate);
+        if (User == null) return NotFound();
+
+        return Ok(User);
+    }
+
 
     [HttpPost]
     public IActionResult Create(User user)
     {
-        // User userForCreate = new User(user.Name,user.Email, user.BirthDate.ToString());
         UserService.Add(user);
-        return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
+        return CreatedAtAction(nameof(GetById), new { id = user.Id }, user.ToString());
     }
 
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, User user)
+    [HttpPut("GetUserById/{id}")]
+    public IActionResult Update(int id, [FromBody] User user)
     {
-        if(id != user.Id)
-            return BadRequest();
-        
-        var existingUser = UserService.Get(id);
-        if(existingUser is null)
-            return NotFound();
-        
-        UserService.Update(user);
+        var User = UserService.GetUserById(user.Id = id);
+        if (User is null) return NotFound();
 
+        UserService.Update(user);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var user = UserService.Get(id);
-        if(user is null)
-            return NotFound();
-        
-        UserService.Delete(id);
+        var User = UserService.GetUserById(id);
+        if (User is null) return NotFound();
 
+        UserService.RemoveUser(User);
         return NoContent();
     }
 }
