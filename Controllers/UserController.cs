@@ -21,8 +21,8 @@ public class UserController : ControllerBase
         return Ok(User);
     }
 
-    [HttpGet("GetByName/{name}")]
-    public IActionResult GetByName(string name)
+    [HttpGet("GetByName")]
+    public IActionResult GetByName([FromQuery] string name)
     {
         var User = UserService.GetUserByName(name);
         if (User == null) return NotFound();
@@ -30,12 +30,11 @@ public class UserController : ControllerBase
         return Ok(User);
     }
 
-    [HttpGet("GetByBirthDate/{birthDate}")]
-    public IActionResult GetByBirthDate(string birthDate)
+    [HttpGet("GetByBirthDate")]
+    public IActionResult GetByBirthDate([FromQuery] string birthDate)
     {
-        birthDate = birthDate.Replace("%2F", "/");
+        // birthDate = birthDate.Replace("%2F", "/");
         var User = UserService.GetUserByBirthDate(birthDate);
-        Console.WriteLine(birthDate);
         if (User == null) return NotFound();
 
         return Ok(User);
@@ -43,19 +42,19 @@ public class UserController : ControllerBase
 
 
     [HttpPost]
-    public IActionResult Create(User user)
+    public IActionResult Create([FromBody] UserViewModel userView)
     {
-        UserService.Add(user);
-        return CreatedAtAction(nameof(GetById), new { id = user.Id }, user.ToString());
+        User? user = UserService.Add(userView);
+        return CreatedAtAction(nameof(GetById), new { id = user!.Id }, user.ToString());
     }
 
     [HttpPut("GetUserById/{id}")]
-    public IActionResult Update(int id, [FromBody] User user)
+    public IActionResult Update(int id, [FromBody] UserViewModel userView)
     {
-        var User = UserService.GetUserById(user.Id = id);
+        User? User = UserService.GetUserById(id);
         if (User is null) return NotFound();
 
-        UserService.Update(user);
+        UserService.Update(User, userView);
         return NoContent();
     }
 

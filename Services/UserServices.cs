@@ -5,41 +5,45 @@ namespace UserAPI.Services;
 public static class UserService
 {
     private static int id = 0;
-    private static List<User> Users = new List<User>
+
+    private static List<User> _users = new List<User>
     {
-        new User (id++, "User1", "user1@gmail.com", "15/05/2000" ),
-        new User (id++, "User2", "user2@gmail.com", "13/03/1993" )
+        new User (id++, "User1", "user1@gmail.com", DateTime.Parse("15/05/2000")),
+        new User (id++, "User2", "user2@gmail.com", DateTime.Parse("13/03/1993"))
     };
 
-    public static List<User> GetAll() => Users;
+    public static List<User> GetAll() => _users;
 
-    public static User? GetUserById(int id) => Users.FirstOrDefault(u => u.Id == id);
+    public static User? GetUserById(int id) => _users.FirstOrDefault(u => u.Id == id);
 
-    public static User? GetUserByName(string name) => Users.Find(u => u.Name!.ToLower() == name.ToLower());
+    public static User? GetUserByName(string name) => _users.Find(u => u.Name!.ToLower() == name.ToLower());
 
     public static User? GetUserByBirthDate(string birthDate) {
-        Console.WriteLine(birthDate);
-        return Users.Find(u => u.BirthDate!.ToLower() == birthDate.ToLower());
+        return _users.Find(u => u.BirthDate.ToString("d").ToLower() == birthDate.ToLower());
     }    
 
-    public static void Add(User user)
+    public static User? Add(UserViewModel userView)
     {
-        user.Id = id++;
+        User user = new User (_users.Count, userView.Name, userView.Email, DateTime.Parse(userView.BirthDate!));
         user.CreatedUserDate = DateTime.Now;
-        Users.Add(user);
+        _users.Add(user);
+        return user;
     }
 
     public static void RemoveUser(User user)
     {
-        Users.Remove(user);
+        _users.Remove(user);
     }
 
-    public static void Update(User user)
+    public static void Update(User user, UserViewModel userView)
     {
-        var index = Users.FindIndex(u => u.Id == user.Id);
+        var index = _users.FindIndex(u => u.Id == user.Id);
         if (index == -1)
             return;
 
-        Users[index] = user;
+        user.CreatedUserDate = DateTime.Now;
+        user.Name = userView.Name;
+        user.Email = userView.Email;
+        user.BirthDate = DateTime.Parse(userView.BirthDate!);
     }
 }
