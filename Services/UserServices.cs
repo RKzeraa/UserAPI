@@ -12,14 +12,25 @@ public static class UserService
         new User (id++, "User2", "user2@gmail.com", DateTime.Parse("13/03/1993"))
     };
 
-    public static List<User> GetAll() => _users;
+    private static List<UserViewModel> _usersView = new List<UserViewModel>();
+    private static List<UserViewModel> GetListViewModel() 
+    {
+        return  _usersView = _users.Select(u => (UserViewModel)u).ToList();
+    }
+
+    public static List<UserViewModel> GetAll() => GetListViewModel();
 
     public static User? GetUserById(int id) => _users.FirstOrDefault(u => u.Id == id);
 
-    public static User? GetUserByName(string name) => _users.Find(u => u.Name!.ToLower() == name.ToLower());
+    public static List<UserViewModel> GetUserByName(string name) => GetListViewModel().FindAll(u => u.Name!.ToLower().Contains(name.ToLower()));
 
-    public static User? GetUserByBirthDate(string birthDate) {
-        return _users.Find(u => u.BirthDate.ToString("d").ToLower() == birthDate.ToLower());
+    public static List<UserViewModel> GetUserByBirthDate(string birthDate) {
+        return GetListViewModel().FindAll(u => u.BirthDate!.ToLower() == birthDate.ToLower());
+    }
+
+    public static UserViewModel GetUserByOlderAge()
+    {
+        return _users.MaxBy(u => DateTime.Now.Subtract(u.BirthDate))!;
     }    
 
     public static User? Add(UserViewModel userView)

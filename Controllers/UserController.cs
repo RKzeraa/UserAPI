@@ -9,7 +9,7 @@ namespace UserAPI.Controllers;
 public class UserController : ControllerBase
 {
     [HttpGet]
-    public IEnumerable<User> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 50) =>
+    public IEnumerable<UserViewModel> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 50) =>
         UserService.GetAll().Skip(skip).Take(take);
 
     [HttpGet("{id}")]
@@ -25,7 +25,7 @@ public class UserController : ControllerBase
     public IActionResult GetByName([FromQuery] string name)
     {
         var User = UserService.GetUserByName(name);
-        if (User == null) return NotFound();
+        if (User.Count < 1) return NotFound();
 
         return Ok(User);
     }
@@ -35,11 +35,19 @@ public class UserController : ControllerBase
     {
         // birthDate = birthDate.Replace("%2F", "/");
         var User = UserService.GetUserByBirthDate(birthDate);
-        if (User == null) return NotFound();
+        if (User.Count < 1) return NotFound();
 
         return Ok(User);
     }
 
+    [HttpGet("GetByOlderAge")]
+    public IActionResult GetByOlderAge()
+    {
+        var User = UserService.GetUserByOlderAge();
+        if (User == null) return NotFound();
+
+        return Ok(User);
+    }
 
     [HttpPost]
     public IActionResult Create([FromBody] UserViewModel userView)

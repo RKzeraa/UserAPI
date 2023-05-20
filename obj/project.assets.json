@@ -224,19 +224,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ramom.silva\\.nuget\\packages\\": {}
+    "C:\\Users\\rkzer\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ramom.silva\\Projects\\UserAPI\\UserAPI.csproj",
+      "projectUniqueName": "C:\\Users\\rkzer\\DEV\\SECTI\\UserAPI\\UserAPI.csproj",
       "projectName": "UserAPI",
-      "projectPath": "C:\\Users\\ramom.silva\\Projects\\UserAPI\\UserAPI.csproj",
-      "packagesPath": "C:\\Users\\ramom.silva\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ramom.silva\\Projects\\UserAPI\\obj\\",
+      "projectPath": "C:\\Users\\rkzer\\DEV\\SECTI\\UserAPI\\UserAPI.csproj",
+      "packagesPath": "C:\\Users\\rkzer\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\rkzer\\DEV\\SECTI\\UserAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ramom.silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\rkzer\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -286,7 +286,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.408\\RuntimeIdentifierGraph.json"
       }
     }
   }

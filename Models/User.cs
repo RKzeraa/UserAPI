@@ -28,6 +28,6 @@ public class User
 
     public override string ToString()
     {
-        return $"ID: {Id}, Name: {Name}, Email: {Email}, Birthdate: {BirthDate}, Created User Date: {CreatedUserDate}";
+        return $"Name: {Name}, Email: {Email}, Birthdate: {BirthDate.ToString("d")}";
     }
 }
